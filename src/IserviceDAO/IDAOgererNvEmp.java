@@ -1,5 +1,13 @@
 package IserviceDAO;
 
-public class IDAOgererNvEmp {
+import java.util.List;
 
+import entities.Emprunt;
+
+public interface IDAOgererNvEmp {
+	boolean insererNouveauEmprunt(Emprunt emprunt);
+
+	List<Emprunt> listerEmprunts();
+
+	boolean deleteEmprunt(int idEmp);
 }
