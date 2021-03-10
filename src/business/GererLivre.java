@@ -3,6 +3,7 @@ package business;
 import java.util.List;
 
 import IserviceDAO.IDAOgererLivre;
+import entities.Exemplaire;
 import entities.Livre;
 
 public class GererLivre {
@@ -13,19 +14,19 @@ public class GererLivre {
 
 	}
 
-	boolean insererLivre(Livre livre) {
-		return gererLivre.insererLivre(livre);
+	public boolean insererLivre(Livre livre, Exemplaire exemplaire, int i) {
+		return gererLivre.insererLivre(livre,exemplaire,i);
 	}
 	
-	boolean deleteLivre(Livre livre) {
-		return gererLivre.deleteLivre(livre);
+	public boolean deleteLivre(int isbn) {
+		return gererLivre.deleteLivre(isbn);
 	}
 
-	List<Livre> listerLivres(){
+	public List<Livre> listerLivres(){
 		return gererLivre.listerLivres();
 	}
 
-	Livre findLivre(int isbn) {
+	public Livre findLivre(int isbn) {
 		return gererLivre.findLivre(isbn);
 	}
 }

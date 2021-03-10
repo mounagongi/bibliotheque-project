@@ -1,5 +1,6 @@
 package entities;
 
+import java.math.BigInteger;
 import java.util.UUID;
 
 public class Etudiant {
@@ -9,7 +10,8 @@ public class Etudiant {
 
 	public Etudiant( String nom, String prenom) {
 
-		this.idEtud = Integer.parseInt(UUID.randomUUID().toString());
+		this.idEtud =Integer.parseInt(String.format("%040d", 
+				new BigInteger(UUID.randomUUID().toString().replace("-", ""), 16)).substring(0, 9));
 		this.nom = nom;
 		this.prenom = prenom;
 	}

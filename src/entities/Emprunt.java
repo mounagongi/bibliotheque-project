@@ -1,5 +1,8 @@
 package entities;
 
+import java.math.BigInteger;
+import java.util.UUID;
+
 public class Emprunt {
 	private int idEmp;
 	private String DE;
@@ -7,15 +10,21 @@ public class Emprunt {
 	private int idEtud;
 	private int codeExmp;
 
-	public Emprunt(int idEmp, String dE, String dRE, int idEtud, int codeExmp) {
-		super();
-		this.idEmp = idEmp;
+	public Emprunt(String dE, String dRE, int idEtud, int codeExmp) {
+		this.idEmp = Integer.parseInt(String.format("%040d", 
+				new BigInteger(UUID.randomUUID().toString().replace("-", ""), 16)).substring(0, 9));
 		DE = dE;
 		DRE = dRE;
 		this.idEtud = idEtud;
 		this.codeExmp = codeExmp;
 	}
-
+	public Emprunt(String dE, int idEtud, int codeExmp) {
+		this.idEmp = Integer.parseInt(String.format("%040d", 
+				new BigInteger(UUID.randomUUID().toString().replace("-", ""), 16)).substring(0, 9));
+		DE = dE;
+		this.idEtud = idEtud;
+		this.codeExmp = codeExmp;
+	}
 	public int getIdEmp() {
 		return idEmp;
 	}
@@ -54,6 +63,11 @@ public class Emprunt {
 
 	public void setCodeExmp(int codeExmp) {
 		this.codeExmp = codeExmp;
+	}
+	@Override
+	public String toString() {
+		return "Emprunt [idEmp=" + idEmp + ", DE=" + DE + ", DRE=" + DRE + ", idEtud=" + idEtud + ", codeExmp="
+				+ codeExmp + "]\n";
 	}
 
 }

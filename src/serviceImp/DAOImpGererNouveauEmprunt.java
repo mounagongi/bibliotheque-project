@@ -7,30 +7,47 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
+
+import IserviceDAO.IDAOgererNvEmp;
 import entities.Emprunt;
 
-public class DAOImpGererNouveauEmprunt {
+public class DAOImpGererNouveauEmprunt implements IDAOgererNvEmp {
+
+	MySingleton singleton = MySingleton.getInstance();
+	Connection conn = singleton.getConn();
 
 	public boolean insererNouveauEmprunt(Emprunt emprunt) {
-		Connection conn = super.connect();
-		String requete = "insert into emprunt(idEmp,dE,dRE,idEtud,codeExmp) values ('" + emprunt.getIdEmp() + "','"
-				+ emprunt.getDE() + "','" + emprunt.getDRE() + "','" + emprunt.getIdEtud() + "','"
-				+ emprunt.getCodeExmp() + "')";
+		String requete2= "select * from emprunt where (codeExmp="+Integer.toString(emprunt.getCodeExmp()) + " AND DRE is not NULL)"
+				+ " OR ("+Integer.toString(emprunt.getCodeExmp()) +" NOT IN (select codeExmp from emprunt));";
+		
+		
+		String requete = "insert into emprunt(idEmp,DE,idEtud,codeExmp) values ("+Integer.toString(emprunt.getIdEmp())+",'"
+				+emprunt.getDE() + "'," 
+				+ Integer.toString(emprunt.getIdEtud()) + "," + Integer.toString(emprunt.getCodeExmp()) + ")";
 		Statement ps = null;
+		ResultSet rs = null; 
 		try {
 			ps = conn.createStatement();
-			ps.execute(requete);
+			rs=ps.executeQuery(requete2);
+			if(rs.next()) {
+				ps.execute(requete);
+				return true;
+				
+			}
+			else {
+				System.out.println("Exemplaire non disponible !!");
+			}
 			ps.close();
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
+		} 
+		catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return true;
+		return false;
 	}
 
 	public List<Emprunt> listerEmprunts() {
-		Connection conn = super.connect();
 		String requete = "select * from emprunt";
 		Statement ps = null;
 		ResultSet rs = null;
@@ -39,7 +56,7 @@ public class DAOImpGererNouveauEmprunt {
 			ps = conn.createStatement();
 			rs = ps.executeQuery(requete);
 			while (rs.next()) {
-				listeEmprunt.add(new Emprunt(rs.getInt("idEmp"), rs.getString("dE"), rs.getString("dRE"),
+				listeEmprunt.add(new Emprunt(rs.getString("DE"), rs.getString("DRE"),
 						rs.getInt("idEtud"), rs.getInt("codeExmp")));
 			}
 			rs.close();
@@ -52,8 +69,7 @@ public class DAOImpGererNouveauEmprunt {
 	}
 
 	public boolean deleteEmprunt(int idEmp) {
-		Connection conn = super.connect();
-		String requete = "delete from 'emprunt' where 'isbn' = " + idEmp;
+		String requete = "delete from emprunt where idEmp = " + Integer.toString(idEmp);
 		Statement ps = null;
 		try {
 			ps = conn.createStatement();

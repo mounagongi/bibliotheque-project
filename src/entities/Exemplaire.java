@@ -1,12 +1,15 @@
 package entities;
 
+import java.math.BigInteger;
+import java.util.UUID;
+
 public class Exemplaire extends Livre {
 
 private int codeExmp;
 
-public Exemplaire(int codeExmp,String titre, String theme, String auteur) {
+public Exemplaire(String titre, String theme, String auteur) {
 	super(titre, theme, auteur);
-	this.codeExmp=codeExmp;
+	//codeExemplaire est auto increment
 }
 
 public int getCodeExmp() {

@@ -12,15 +12,15 @@ public class GererNvEmp {
 		this.gererNvEmp = gererNvEmp;
 	}
 
-	boolean insererNouveauEmprunt(Emprunt emprunt) {
+	public boolean insererNouveauEmprunt(Emprunt emprunt) {
 		return gererNvEmp.insererNouveauEmprunt(emprunt);
 	}
 
-	List<Emprunt> listerEmprunts() {
+	public List<Emprunt> listerEmprunts() {
 		return gererNvEmp.listerEmprunts();
 	}
 
-	boolean deleteEmprunt(int idEmp) {
+	public boolean deleteEmprunt(int idEmp) {
 		return gererNvEmp.deleteEmprunt(idEmp);
 	}
 
